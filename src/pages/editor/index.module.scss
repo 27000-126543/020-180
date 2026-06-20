@@ -1,0 +1,307 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 160rpx;
+}
+
+.taskBar {
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  border-bottom: 2rpx solid $color-divider;
+}
+
+.taskTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.taskMeta {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.moodTag {
+  padding: 4rpx 16rpx;
+  border-radius: $radius-xs;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}
+
+.suspense {
+  background: $color-mood-suspense;
+}
+
+.romance {
+  background: $color-mood-romance;
+}
+
+.action {
+  background: $color-mood-action;
+}
+
+.require {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+}
+
+.section {
+  padding: $spacing-lg $page-padding;
+}
+
+.sectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionHint {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  font-weight: $font-weight-normal;
+}
+
+.availablePanels {
+  display: flex;
+  gap: $spacing-md;
+  overflow-x: auto;
+  padding-bottom: $spacing-sm;
+  @include scroll-x-container;
+}
+
+.miniPanelWrap {
+  @include scroll-x-item(200rpx);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $spacing-xs;
+  vertical-align: top;
+}
+
+.miniPanelUsed {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.panelDesc {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  @include text-ellipsis;
+  width: 200rpx;
+}
+
+.canvasArea {
+  background: linear-gradient(180deg, #FFEFE5 0%, $color-bg-page 100%);
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  margin: 0 $page-padding;
+}
+
+.layoutItem {
+  position: relative;
+  margin-bottom: 0;
+}
+
+.spaceArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 16rpx,
+    rgba(255, 107, 53, 0.15) 16rpx,
+    rgba(255, 107, 53, 0.15) 17rpx
+  );
+  cursor: pointer;
+  transition: all $transition-base;
+  border-radius: $radius-sm;
+
+  &.active {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 16rpx,
+      rgba(255, 107, 53, 0.3) 16rpx,
+      rgba(255, 107, 53, 0.3) 17rpx
+    );
+  }
+}
+
+.spaceLabel {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  font-weight: $font-weight-medium;
+}
+
+.dialoguePool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.dialogueChip {
+  background: $color-bg-card;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  border: 2rpx solid $color-border;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  max-width: 100%;
+  transition: all $transition-base;
+  box-shadow: $shadow-card;
+
+  &.used {
+    opacity: 0.4;
+  }
+
+  &.active {
+    border-color: $color-primary;
+    background: $color-bg-hover;
+  }
+}
+
+.previewAndTips {
+  display: flex;
+  gap: $spacing-md;
+  align-items: flex-start;
+}
+
+.previewCol {
+  flex-shrink: 0;
+}
+
+.tipsCol {
+  flex: 1;
+  min-width: 0;
+}
+
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $spacing-md $page-padding;
+  background: $color-bg-card;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
+  display: flex;
+  gap: $spacing-md;
+  padding-bottom: calc(#{$spacing-md} + env(safe-area-inset-bottom));
+}
+
+.progressInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.progressText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.progressBar {
+  height: 8rpx;
+  background: $color-bg-hover;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: 4rpx;
+  transition: width $transition-base;
+}
+
+.btn {
+  @include button-reset;
+  height: $button-height-lg;
+  padding: 0 $spacing-xl;
+  border-radius: $radius-button;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.btnSecondary {
+  background: $color-bg-hover;
+  color: $color-text-secondary;
+}
+
+.btnGhost {
+  background: transparent;
+  color: $color-primary;
+  border: 2rpx solid $color-primary;
+}
+
+.controlsRow {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-sm;
+}
+
+.controlBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-md;
+  border-radius: $radius-md;
+  background: $color-bg-card;
+  color: $color-text-secondary;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  transition: all $transition-base;
+  border: 2rpx solid $color-border;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.controlBtnActive {
+  border-color: $color-primary;
+  color: $color-primary;
+  background: rgba(255, 107, 53, 0.05);
+}
+
+.dialogueAssigned {
+  position: absolute;
+  bottom: 16rpx;
+  left: 16rpx;
+  right: 16rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.dialogueMini {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2rpx solid $color-border;
+  padding: 6rpx 12rpx;
+  border-radius: $radius-xs;
+  font-size: 20rpx;
+  color: $color-text-primary;
+}

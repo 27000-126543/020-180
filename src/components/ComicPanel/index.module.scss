@@ -1,0 +1,97 @@
+@use '@/styles/variables.scss' as *;
+
+.panelWrap {
+  position: relative;
+  width: 100%;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+}
+
+.selected {
+  box-shadow: 0 0 0 4rpx $color-primary, $shadow-card-hover;
+}
+
+.panelImage {
+  width: 100%;
+  display: block;
+}
+
+.dialogues {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.dragHandle {
+  position: absolute;
+  bottom: -40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80rpx;
+  height: 8rpx;
+  background: $color-primary;
+  border-radius: 4rpx;
+  opacity: 0.5;
+}
+
+.dragIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 107, 53, 0.1);
+  border: 4rpx dashed $color-primary;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dragText {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}
+
+.panelIndex {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  width: 48rpx;
+  height: 48rpx;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-white;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+}
+
+.placeholder {
+  width: 100%;
+  height: 300rpx;
+  background: linear-gradient(135deg, $color-bg-hover 0%, $color-border 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.placeholderText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.miniPanel {
+  border-radius: $radius-sm;
+  overflow: hidden;
+}

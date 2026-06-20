@@ -1,0 +1,73 @@
+@use '@/styles/variables.scss' as *;
+
+.panel {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.titleIcon {
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-xs;
+  color: $color-text-white;
+}
+
+.warning {
+  background: $color-warning;
+}
+
+.info {
+  background: $color-info;
+}
+
+.success {
+  background: $color-success;
+}
+
+.tipList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.tipItem {
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background: $color-bg-warm;
+}
+
+.tipTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.tipContent {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+}
+
+.empty {
+  padding: $spacing-xl;
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}

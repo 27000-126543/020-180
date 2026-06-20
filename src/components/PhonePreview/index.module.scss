@@ -1,0 +1,70 @@
+@use '@/styles/variables.scss' as *;
+
+.phone {
+  width: 280rpx;
+  height: 500rpx;
+  background: #1a1a1a;
+  border-radius: 36rpx;
+  padding: 20rpx 12rpx;
+  box-shadow: $shadow-popup;
+  display: flex;
+  flex-direction: column;
+}
+
+.notch {
+  width: 100rpx;
+  height: 24rpx;
+  background: #000;
+  border-radius: 0 0 16rpx 16rpx;
+  margin: 0 auto 12rpx;
+}
+
+.screen {
+  flex: 1;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrollArea {
+  height: 100%;
+}
+
+.content {
+  padding: 16rpx;
+}
+
+.panelSlot {
+  margin-bottom: 0;
+  border-radius: $radius-xs;
+  overflow: hidden;
+}
+
+.panelImg {
+  width: 100%;
+  display: block;
+}
+
+.label {
+  position: absolute;
+  bottom: 16rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+}
+
+.dialogueInPreview {
+  background: $color-bg-card;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-sm;
+  padding: 8rpx 12rpx;
+  margin: 8rpx;
+  font-size: 18rpx;
+  color: $color-text-primary;
+  text-align: center;
+}

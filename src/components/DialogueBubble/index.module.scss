@@ -1,0 +1,53 @@
+@use '@/styles/variables.scss' as *;
+
+.bubble {
+  position: absolute;
+  background: $color-bg-card;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-lg;
+  padding: 16rpx 20rpx;
+  max-width: 80%;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  transform: translate(-50%, -50%);
+}
+
+.text {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  line-height: $line-height-normal;
+  text-align: center;
+}
+
+.tail {
+  position: absolute;
+  bottom: -16rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 16rpx solid transparent;
+  border-right: 16rpx solid transparent;
+  border-top: 16rpx solid $color-border;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 2rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12rpx solid transparent;
+    border-right: 12rpx solid transparent;
+    border-top: 12rpx solid $color-bg-card;
+  }
+}
+
+.mini {
+  padding: 10rpx 14rpx;
+  max-width: 90%;
+
+  .text {
+    font-size: $font-size-xs;
+  }
+}

@@ -1,0 +1,110 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-md;
+}
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  flex: 1;
+  margin-right: $spacing-sm;
+  @include text-ellipsis;
+}
+
+.moodTag {
+  padding: 6rpx 16rpx;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.suspense {
+  background: linear-gradient(135deg, $color-mood-suspense 0%, #818CF8 100%);
+}
+
+.romance {
+  background: linear-gradient(135deg, $color-mood-romance 0%, #F472B6 100%);
+}
+
+.action {
+  background: linear-gradient(135deg, $color-mood-action 0%, #F87171 100%);
+}
+
+.description {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+  margin-bottom: $spacing-lg;
+  @include text-ellipsis-multi(2);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metaLeft {
+  display: flex;
+  gap: $spacing-lg;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.metaLabel {
+  margin-right: 6rpx;
+}
+
+.metaValue {
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.difficulty {
+  display: flex;
+  gap: 4rpx;
+}
+
+.star {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: $color-border;
+
+  &.active {
+    background: $color-primary;
+  }
+}
+
+.deadline {
+  font-size: $font-size-xs;
+  color: $color-warning;
+  font-weight: $font-weight-medium;
+}
