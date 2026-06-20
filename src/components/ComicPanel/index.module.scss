@@ -24,7 +24,33 @@
   left: 0;
   right: 0;
   bottom: 0;
-  pointer-events: none;
+}
+
+.dialogueWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+}
+
+.dialogueSelected {
+  background: rgba(255, 107, 53, 0.1);
+  border: 2rpx dashed $color-primary;
+  border-radius: $radius-md;
+}
+
+.positionHandle {
+  position: absolute;
+  width: 32rpx;
+  height: 32rpx;
+  background: $color-primary;
+  border: 4rpx solid #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 .dragHandle {
@@ -73,6 +99,7 @@
   color: $color-text-white;
   font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
+  z-index: 5;
 }
 
 .placeholder {

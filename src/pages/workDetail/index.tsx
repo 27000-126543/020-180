@@ -1,154 +1,194 @@
 import React, { useMemo } from 'react'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image, Button, ScrollView } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import classnames from 'classnames'
 import styles from './index.module.scss'
-import { mockWorks } from '@/data/mockWorks'
-import { mockTasks } from '@/data/mockTasks'
+import { useAppContext } from '@/store/AppContext'
+import { SubmittedWork, LayoutRecord, ComicPanel } from '@/types/comic'
 
 const WorkDetailPage: React.FC = () => {
   const router = useRouter()
-  const workId = router.params.id || 'work-001'
+  const workId = router.params.id
+  const { works, tasks } = useAppContext()
 
   const work = useMemo(() => {
-    return mockWorks.find(w => w.id === workId) || mockWorks[0]
-  }, [workId])
+    return works.find(w => w.id === workId) as SubmittedWork
+  }, [works, workId])
 
   const task = useMemo(() => {
-    return mockTasks.find(t => t.id === work.taskId)
+    if (!work) return null
+    return tasks.find(t => t.id === work.taskId)
+  }, [tasks, work])
+
+  const sortedLayout = useMemo(() => {
+    if (!work) return []
+    return [...work.finalLayout].sort((a, b) => a.order - b.order)
   }, [work])
 
-  const finalPanels = useMemo(() => {
-    if (!task) return []
-    return work.finalLayout
-      .sort((a, b) => a.order - b.order)
-      .map(record => ({
-        record,
-        panel: task.panels.find(p => p.id === record.panelId)
-      }))
-      .filter(item => item.panel)
-  }, [work, task])
+  const getPanelById = (panelId: string): ComicPanel | undefined => {
+    if (!task) return undefined
+    return task.panels.find(p => p.id === panelId)
+  }
 
-  if (!task) {
+  if (!work) {
     return (
       <View className={styles.page}>
-        <View className={styles.empty}>
-          <Text className={styles.emptyText}>作业不存在</Text>
+        <View style={{ padding: 100, textAlign: 'center' }}>
+          <Text>作业不存在</Text>
+          <Button
+            style={{ marginTop: 20 }}
+            onClick={() => Taro.navigateBack()}
+          >
+            <Text>返回</Text>
+          </Button>
         </View>
       </View>
     )
   }
 
+  const handleBack = () => {
+    Taro.navigateBack()
+  }
+
+  const renderStars = (score: number) => {
+    const full = Math.floor(score / 20)
+    return '★'.repeat(full) + '☆'.repeat(5 - full)
+  }
+
+  const formatHistoryChanges = (layout: LayoutRecord[]) => {
+    const panels = layout.length
+    const dialogues = layout.reduce((sum, r) => sum + r.dialogues.length, 0)
+    return { panels, dialogues }
+  }
+
   return (
-    <View className={styles.page}>
+    <ScrollView scrollY className={styles.page}>
       <View className={styles.header}>
-        <Text className={styles.title}>{work.taskTitle}</Text>
-        <View className={styles.metaRow}>
-          <View className={classnames(styles.moodTag, styles[work.mood]}>
+        <Button className={styles.backBtn} onClick={handleBack}>
+          <Text>← 返回</Text>
+        </Button>
+        <Text className={styles.headerTitle}>作业详情</Text>
+        <View style={{ width: 100 }} />
+      </View>
+
+      <View className={classnames(styles.hero, styles[work.mood])}>
+        <View className={styles.heroTop}>
+          <View className={styles.moodBadge}>
             <Text>{work.moodLabel}</Text>
           </View>
-          <Text className={styles.metaText}>提交于 {work.submittedAt}</Text>
-          <Text className={styles.metaText}>使用 {work.usedPanels} 格</Text>
+          <View className={styles.statusTag}>
+            <Text>{work.status === 'reviewed' ? '已点评' : '待点评'}</Text>
+          </View>
         </View>
+        <Text className={styles.taskTitle}>{work.taskTitle}</Text>
+        <Text className={styles.meta}>提交时间：{work.submittedAt}</Text>
       </View>
 
-      <View className={styles.section}>
-        {work.status === 'reviewed' && work.score !== undefined ? (
-          <View className={styles.scoreCard}>
-            <View className={styles.scoreCircle}>
-              <Text className={styles.scoreValue}>{work.score}</Text>
-              <Text className={styles.scoreLabel}>得分</Text>
-            </View>
-            <View className={styles.scoreInfo}>
-              <Text className={styles.scoreTitle}>老师已点评</Text>
-              <Text className={styles.scoreDesc}>共进行了 {work.layoutHistory.length} 次修改，排版节奏把控良好</Text>
-            </View>
+      {work.status === 'reviewed' && (
+        <View className={styles.scoreSection}>
+          <View className={styles.scoreCircle}>
+            <Text className={styles.scoreNumber}>{work.score}</Text>
+            <Text className={styles.scoreLabel}>分</Text>
           </View>
-        ) : (
-          <View className={styles.pendingCard}>
-            <View className={styles.pendingIcon}>⏳</View>
-            <Text className={styles.pendingText}>等待老师点评中...</Text>
-            <Text className={styles.pendingHint}>老师通常会在24小时内完成点评</Text>
-          </View>
-        )}
-      </View>
-
-      {work.status === 'reviewed' && work.teacherComment && (
-        <View className={styles.section}>
-          <Text className={styles.sectionTitle}>老师点评</Text>
-          <View className={styles.commentCard}>
-            <View className={styles.commentLabel}>
-              <View className={styles.teacherDot} />
-              <Text>{task.teacherName}</Text>
-            </View>
-            <Text className={styles.commentText}>{work.teacherComment}</Text>
-          </View>
+          <Text className={styles.scoreStars}>{work.score !== undefined ? renderStars(work.score) : '—'}</Text>
         </View>
       )}
 
-      <View className={styles.section}>
-        <Text className={styles.sectionTitle}>排版修改历史 ({work.layoutHistory.length} 次)</Text>
-        <View className={styles.historyCard}>
-          {work.layoutHistory.map((history, idx) => (
-            <View key={idx} className={styles.historyItem}>
-              <View className={styles.historyIndex}>
-                <Text>{idx + 1}</Text>
+      {work.status === 'pending' && (
+        <View className={styles.pendingSection}>
+          <View className={styles.pendingIcon}>⏳</View>
+          <Text className={styles.pendingText}>等待老师点评中...</Text>
+        </View>
+      )}
+
+      {work.teacherComment && (
+        <View className={styles.card}>
+          <View className={styles.cardTitle}>
+            <View className={styles.cardIcon} />
+            <Text>老师点评</Text>
+          </View>
+          <Text className={styles.commentText}>{work.teacherComment}</Text>
+        </View>
+      )}
+
+      <View className={styles.card}>
+        <View className={styles.cardTitle}>
+          <View className={styles.cardIcon} />
+          <Text>排版修改历史</Text>
+        </View>
+        <View className={styles.timeline}>
+          {work.layoutHistory.map((layout, idx) => {
+            const changes = formatHistoryChanges(layout)
+            return (
+              <View key={idx} className={styles.timelineItem}>
+                <View className={styles.timelineDot} />
+                <View className={styles.timelineContent}>
+                  <Text className={styles.timelineTitle}>修改 {idx + 1}</Text>
+                  <Text className={styles.timelineDesc}>
+                    {changes.panels} 个画格 · {changes.dialogues} 条对白
+                  </Text>
+                </View>
               </View>
-              <View className={styles.historyContent}>
-                <Text className={styles.historyTitle}>
-                  第 {idx + 1} 版
-                  {idx === work.layoutHistory.length - 1 ? '（最终版）' : ''}
-                </Text>
-                <Text className={styles.historyMeta}>
-                  使用 {history.length} 个画格 · {history.flatMap(h => h.dialogues).length} 条对白
-                </Text>
-              </View>
-            </View>
-          ))}
+            )
+          })}
         </View>
       </View>
 
-      <View className={styles.section}>
-        <Text className={styles.sectionTitle}>最终排版效果</Text>
-        <View className={styles.previewList}>
-          {finalPanels.map((item, idx) => (
-            <View key={item.record.panelId} className={styles.previewItem}>
-              <Text className={styles.previewIndex}>第 {idx + 1} 格</Text>
-              {item.panel && (
-                <View className={styles.previewImg}>
+      <View className={styles.card}>
+        <View className={styles.cardTitle}>
+          <View className={styles.cardIcon} />
+          <Text>最终排版效果</Text>
+        </View>
+        <View className={styles.previewArea}>
+          {sortedLayout.map((record, idx) => {
+            const panel = getPanelById(record.panelId)
+            if (!panel) return null
+            return (
+              <View key={record.panelId} className={styles.previewItem}>
+                <View className={styles.previewPanel}>
                   <Image
-                    src={item.panel.imageUrl}
+                    className={styles.previewImg}
+                    src={panel.imageUrl}
                     mode="widthFix"
                     onError={(e) => console.error('[WorkDetail] 图片加载失败:', e)}
-                    style={{ width: '100%', display: 'block' }}
                   />
+                  {record.dialogues.length > 0 && (
+                    <View style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0
+                    }}>
+                      {record.dialogues.map((d, i) => (
+                        <View
+                          key={d.id}
+                          className={styles.dialogueBubble}
+                          style={{
+                            left: `${d.position?.x || 50}%`,
+                            top: `${d.position?.y || 20 + i * 25}%`
+                          }}
+                        >
+                          <Text className={styles.dialogueText}>{d.text}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  )}
                 </View>
-              )}
-              {item.record.dialogues.length > 0 && (
-                <View style={{ marginTop: '16rpx' }}>
-                  {item.record.dialogues.map(d => (
-                    <Text
-                      key={d.id}
-                      style={{
-                        display: 'block',
-                        fontSize: '24rpx',
-                        color: '#4E5969',
-                        background: '#FFF8F3',
-                        padding: '8rpx 16rpx',
-                        borderRadius: '8rpx',
-                        marginBottom: '8rpx'
-                      }}
-                    >
-                      💬 {d.text}
-                    </Text>
-                  ))}
-                </View>
-              )}
-            </View>
-          ))}
+                {idx < sortedLayout.length - 1 && (
+                  <View
+                    className={styles.previewSpace}
+                    style={{ height: `${record.marginBottom}rpx` }}
+                  />
+                )}
+              </View>
+            )
+          })}
         </View>
       </View>
-    </View>
+
+      <View style={{ height: 60 }} />
+    </ScrollView>
   )
 }
 

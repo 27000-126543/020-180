@@ -2,8 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.scss'
-import { mockTasks } from '@/data/mockTasks'
-import { mockWorks } from '@/data/mockWorks'
+import { useAppContext } from '@/store/AppContext'
 import TaskCard from '@/components/TaskCard'
 import { MoodType } from '@/types/comic'
 
@@ -11,6 +10,9 @@ type FilterType = 'all' | MoodType
 
 const TasksPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
+  const { tasks, works } = useAppContext()
+
+  console.log('[TasksPage] 任务总数:', tasks.length, '作业总数:', works.length)
 
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: '全部' },
@@ -20,16 +22,18 @@ const TasksPage: React.FC = () => {
   ]
 
   const filteredTasks = useMemo(() => {
-    if (activeFilter === 'all') return mockTasks
-    return mockTasks.filter(t => t.mood === activeFilter)
-  }, [activeFilter])
+    if (activeFilter === 'all') return tasks
+    return tasks.filter(t => t.mood === activeFilter)
+  }, [tasks, activeFilter])
 
   const stats = useMemo(() => {
+    const pending = works.filter(w => w.status === 'pending').length
     return {
-      total: mockTasks.length,
-      submitted: mockWorks.length
+      total: tasks.length,
+      submitted: works.length,
+      pending
     }
-  }, [])
+  }, [tasks, works])
 
   return (
     <View className={styles.page}>
@@ -48,7 +52,7 @@ const TasksPage: React.FC = () => {
           <Text className={styles.statLabel}>已提交</Text>
         </View>
         <View className={styles.statCard}>
-          <Text className={styles.statValue}>3</Text>
+          <Text className={styles.statValue}>{stats.pending}</Text>
           <Text className={styles.statLabel}>待点评</Text>
         </View>
       </View>

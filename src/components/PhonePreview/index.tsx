@@ -21,7 +21,7 @@ const PhonePreview: React.FC<PhonePreviewProps> = ({ panels, layout }) => {
               const panel = panels.find(p => p.id === record.panelId)
               if (!panel) return null
               return (
-                <View key={record.panelId}>
+                <View key={record.panelId} style={{ position: 'relative' }}>
                   {record.marginTop > 0 && (
                     <View style={{ height: `${record.marginTop * 0.3}rpx` }} />
                   )}
@@ -32,12 +32,29 @@ const PhonePreview: React.FC<PhonePreviewProps> = ({ panels, layout }) => {
                       mode="widthFix"
                       onError={(e) => console.error('[PhonePreview] 图片加载失败:', e)}
                     />
+                    {record.dialogues.length > 0 && (
+                      <View style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0
+                      }}>
+                        {record.dialogues.map((d, i) => (
+                          <View
+                            key={d.id}
+                            className={styles.dialogueBubble}
+                            style={{
+                              left: `${d.position?.x || 50}%`,
+                              top: `${d.position?.y || 20 + i * 25}%`
+                            }}
+                          >
+                            <Text className={styles.dialogueText}>{d.text}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
                   </View>
-                  {record.dialogues.map(d => (
-                    <View key={d.id} className={styles.dialogueInPreview}>
-                      <Text>{d.text}</Text>
-                    </View>
-                  ))}
                 </View>
               )
             })}

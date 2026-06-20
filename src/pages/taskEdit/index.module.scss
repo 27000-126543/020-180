@@ -1,0 +1,340 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $page-padding;
+  padding-top: calc(#{$spacing-md} + env(safe-area-inset-top));
+  background: $color-bg-card;
+  border-bottom: 1rpx solid $color-border;
+}
+
+.backBtn, .saveBtn {
+  background: transparent !important;
+  border: none !important;
+  font-size: $font-size-sm !important;
+  padding: 0 !important;
+  width: 120rpx !important;
+
+  &::after { border: none; }
+}
+
+.backBtn {
+  color: $color-text-secondary !important;
+}
+
+.saveBtn {
+  color: $color-primary !important;
+  font-weight: $font-weight-semibold !important;
+}
+
+.headerTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.form {
+  padding: $spacing-lg $page-padding;
+}
+
+.section {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.sectionTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-lg;
+  display: block;
+}
+
+.formItem {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+  display: block;
+}
+
+.rowLabel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.hint {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.input {
+  background: $color-bg-page;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.textarea {
+  background: $color-bg-page;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  font-size: $font-size-base;
+  color: $color-text-primary;
+  width: 100%;
+  min-height: 160rpx;
+  line-height: 1.5;
+}
+
+.moodOptions {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.moodBtn {
+  flex: 1;
+  background: $color-bg-page !important;
+  border: 2rpx solid $color-border !important;
+  border-radius: $radius-md !important;
+  height: 80rpx !important;
+  line-height: 76rpx !important;
+  font-size: $font-size-sm !important;
+  color: $color-text-secondary !important;
+  padding: 0 !important;
+
+  &::after { border: none; }
+
+  &.active {
+    color: $color-text-white !important;
+    border-color: transparent !important;
+    font-weight: $font-weight-medium !important;
+  }
+}
+
+.difficultyOptions {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.difficultyBtn {
+  flex: 1;
+  background: $color-bg-page !important;
+  border: 2rpx solid $color-border !important;
+  border-radius: $radius-md !important;
+  height: 80rpx !important;
+  line-height: 76rpx !important;
+  font-size: $font-size-base !important;
+  color: $color-text-secondary !important;
+  padding: 0 !important;
+
+  &::after { border: none; }
+
+  &.active {
+    background: $color-primary !important;
+    border-color: $color-primary !important;
+    color: #FFD700 !important;
+  }
+}
+
+.panelCountOptions {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.countBtn {
+  background: $color-bg-page !important;
+  border: 2rpx solid $color-border !important;
+  border-radius: $radius-round !important;
+  height: 72rpx !important;
+  line-height: 68rpx !important;
+  font-size: $font-size-sm !important;
+  color: $color-text-secondary !important;
+  padding: 0 $spacing-lg !important;
+
+  &::after { border: none; }
+
+  &.active {
+    background: $color-primary !important;
+    border-color: $color-primary !important;
+    color: $color-text-white !important;
+  }
+}
+
+.formItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tipItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-sm;
+}
+
+.tipDot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: $color-primary;
+  margin-top: 14rpx;
+  flex-shrink: 0;
+}
+
+.tipText {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  line-height: 1.5;
+}
+
+.removeTipBtn {
+  background: transparent !important;
+  border: none !important;
+  color: $color-text-tertiary !important;
+  font-size: $font-size-sm !important;
+  padding: 0 !important;
+  width: 60rpx !important;
+  height: 60rpx !important;
+  line-height: 60rpx !important;
+
+  &::after { border: none; }
+}
+
+.addTipRow {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+.tipInput {
+  flex: 1;
+  background: $color-bg-page;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: 0 $spacing-md;
+  font-size: $font-size-sm;
+  height: 72rpx;
+  line-height: 72rpx;
+}
+
+.addBtn {
+  background: $color-primary !important;
+  border: none !important;
+  border-radius: $radius-md !important;
+  height: 72rpx !important;
+  line-height: 72rpx !important;
+  font-size: $font-size-sm !important;
+  color: $color-text-white !important;
+  padding: 0 $spacing-lg !important;
+
+  &::after { border: none; }
+}
+
+.panelGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.panelThumb {
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  padding: $spacing-sm;
+  text-align: center;
+  border: 2rpx solid $color-border;
+}
+
+.panelIndex {
+  display: block;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  margin-bottom: 4rpx;
+}
+
+.panelDesc {
+  font-size: 20rpx;
+  color: $color-text-secondary;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notice {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  text-align: center;
+  display: block;
+}
+
+.bottomActions {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-lg 0;
+}
+
+.resetBtn {
+  flex: 1;
+  background: $color-bg-hover !important;
+  border: none !important;
+  border-radius: $radius-round !important;
+  height: 88rpx !important;
+  line-height: 88rpx !important;
+  font-size: $font-size-base !important;
+  color: $color-text-secondary !important;
+
+  &::after { border: none; }
+}
+
+.saveFinalBtn {
+  flex: 2;
+  background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%) !important;
+  border: none !important;
+  border-radius: $radius-round !important;
+  height: 88rpx !important;
+  line-height: 88rpx !important;
+  font-size: $font-size-base !important;
+  color: $color-text-white !important;
+  font-weight: $font-weight-semibold !important;
+
+  &::after { border: none; }
+}

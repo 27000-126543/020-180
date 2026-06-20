@@ -1,4 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '作业详情',
+  navigationBarTitleText: '编辑任务',
   navigationStyle: 'custom'
 })

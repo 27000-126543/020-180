@@ -5,7 +5,8 @@ export default defineAppConfig({
     'pages/mywork/index',
     'pages/reviews/index',
     'pages/taskDetail/index',
-    'pages/workDetail/index'
+    'pages/workDetail/index',
+    'pages/taskEdit/index'
   ],
   window: {
     backgroundTextStyle: 'light',

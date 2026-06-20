@@ -2,31 +2,34 @@ import React, { useState, useMemo } from 'react'
 import { View, Text, Button } from '@tarojs/components'
 import classnames from 'classnames'
 import styles from './index.module.scss'
-import { mockWorks } from '@/data/mockWorks'
+import { useAppContext } from '@/store/AppContext'
 import WorkCard from '@/components/WorkCard'
 
 type FilterType = 'all' | 'pending' | 'reviewed'
 
 const MyWorkPage: React.FC = () => {
   const [filter, setFilter] = useState<FilterType>('all')
+  const { works } = useAppContext()
+
+  console.log('[MyWorkPage] 作业总数:', works.length)
 
   const filteredWorks = useMemo(() => {
-    if (filter === 'all') return mockWorks
-    return mockWorks.filter(w => w.status === filter)
-  }, [filter])
+    if (filter === 'all') return works
+    return works.filter(w => w.status === filter)
+  }, [works, filter])
 
   const stats = useMemo(() => {
-    const reviewed = mockWorks.filter(w => w.status === 'reviewed')
+    const reviewed = works.filter(w => w.status === 'reviewed')
     const avg = reviewed.length > 0
       ? Math.round(reviewed.reduce((sum, w) => sum + (w.score || 0), 0) / reviewed.length)
       : 0
     return {
-      total: mockWorks.length,
+      total: works.length,
       reviewed: reviewed.length,
-      pending: mockWorks.filter(w => w.status === 'pending').length,
+      pending: works.filter(w => w.status === 'pending').length,
       avgScore: avg
     }
-  }, [])
+  }, [works])
 
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: '全部' },

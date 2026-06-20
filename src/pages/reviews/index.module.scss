@@ -24,16 +24,18 @@
 
 .statRow {
   display: flex;
-  gap: $spacing-md;
+  gap: $spacing-sm;
   margin-bottom: $spacing-lg;
 }
 
 .statItem {
   flex: 1;
+  min-width: 0;
   background: $color-bg-card;
-  border-radius: $radius-lg;
-  padding: $spacing-lg;
+  border-radius: $radius-md;
+  padding: $spacing-md $spacing-sm;
   box-shadow: $shadow-card;
+  text-align: center;
 }
 
 .statTop {

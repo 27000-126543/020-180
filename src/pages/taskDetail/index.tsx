@@ -2,20 +2,29 @@ import React, { useMemo } from 'react'
 import { View, Text, Image, Button } from '@tarojs/components'
 import Taro, { useRouter } from '@tarojs/taro'
 import styles from './index.module.scss'
-import { mockTasks } from '@/data/mockTasks'
+import { useAppContext } from '@/store/AppContext'
 
 const TaskDetailPage: React.FC = () => {
   const router = useRouter()
   const taskId = router.params.id || 'task-001'
+  const { tasks, setCurrentTaskId } = useAppContext()
 
   const task = useMemo(() => {
-    return mockTasks.find(t => t.id === taskId) || mockTasks[0]
-  }, [taskId])
+    return tasks.find(t => t.id === taskId) || tasks[0]
+  }, [tasks, taskId])
 
   const handleStart = () => {
-    console.log('[TaskDetail] 开始练习:', task.id)
+    console.log('[TaskDetail] 开始练习，切换到任务:', task.id)
+    setCurrentTaskId(task.id)
     Taro.switchTab({
       url: '/pages/editor/index'
+    })
+  }
+
+  const handleEdit = () => {
+    console.log('[TaskDetail] 编辑任务:', task.id)
+    Taro.navigateTo({
+      url: `/pages/taskEdit/index?id=${task.id}`
     })
   }
 
@@ -26,8 +35,13 @@ const TaskDetailPage: React.FC = () => {
   return (
     <View className={styles.page}>
       <View className={styles.hero}>
-        <View className={styles.moodBadge}>
-          <Text>{task.moodLabel}</Text>
+        <View className={styles.heroHeader}>
+          <View className={styles.moodBadge}>
+            <Text>{task.moodLabel}</Text>
+          </View>
+          <Button className={styles.editBtn} onClick={handleEdit}>
+            <Text>✎ 编辑任务</Text>
+          </Button>
         </View>
         <Text className={styles.title}>{task.title}</Text>
         <Text className={styles.description}>{task.description}</Text>
